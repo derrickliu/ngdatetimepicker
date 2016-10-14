@@ -1,0 +1,49 @@
+<div class="dropdown">
+	<div class="input-group" id="{{datetimepickerinput}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		<input class="form-control" type="text" ng-model="datetime" placeholder="{{config.placeholder}}" ng-readonly="config.readonly" name="{{config.name}}"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+	</div>
+	<div class="dropdown-menu datetimepicker" role="menu" aria-labelledby="{{datetimepickerinput}}">
+		<table class=" table-condensed">
+			<thead>
+				<tr>
+					<th ng-class="{disabled: prevDisabled}" ng-click="prevMonth()"><i class="glyphicon glyphicon-arrow-left"></i></th>
+					<th colspan="5" class="switch">
+						<select ng-model="year" convert-to-number ng-change="yearMonthchange()">
+							<option ng-repeat="y in years" value="{{y}}">{{y}}</option>
+						</select>
+						<select ng-model="month" convert-to-number ng-change="yearMonthchange()">
+							<option ng-repeat="m in months" value="{{m}}">{{m}}</option>
+						</select>
+					</th>
+					<th ng-class="{disabled: nextDisabled}" ng-click="nextMonth()"><i class="glyphicon glyphicon-arrow-right"></i></th>
+				</tr>
+				<tr>
+					<th class="dow">天</th>
+					<th class="dow">一</th>
+					<th class="dow">二</th>
+					<th class="dow">三</th>
+					<th class="dow">四</th>
+					<th class="dow">五</th>
+					<th class="dow">六</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="date in dates">
+					<td class="day {{d.status}}" ng-class="{disabled: d.disabled}" ng-repeat="d in date" ng-click="dateSelect(d)">{{d.day}}</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr ng-show="config.showTime">
+					<td colspan="6"><input type="number" max="{{time.hour.max}}" min="{{time.hour.min}}" ng-model="hour" ng-change="hourChange()">h<input type="number" max="{{time.minute.max}}" min="{{time.minute.min}}" ng-model="minute" ng-change="minuteChange()">min<input type="number" max="{{time.second.max}}" min="{{time.second.min}}" ng-model="second" ng-change="secondChange()">s</td>
+					<th class="sure" ng-click="sure()"><i class="glyphicon glyphicon-ok"></i></th>
+				</tr>
+				<tr ng-show="config.showTime">
+					<th colspan="7" class="sure" ng-class="{disabled: todayDis}" ng-click="today()">现在</th>
+				</tr>
+				<tr ng-show="!config.showTime">
+					<th colspan="7" class="sure" ng-class="{disabled: todayDis}" ng-click="today()">今天</th>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div>

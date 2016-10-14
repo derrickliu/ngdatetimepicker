@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html ng-app="ngDatetimepickerApp">
+	<head>
+		<meta charset="UTF-8">
+		<title>ng.datetimepicker.js demo</title>
+		<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+		<script src="node_modules/jquery/dist/jquery.js"></script>
+		<script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+		<script src="node_modules/angular/angular.js"></script>
+	</head>
+	<body ng-controller="ngDatetimepickerCtrlDemo">
+		<form class="form-horizontal" role="form">
+			<div class="form-group form-group-sm">
+				<label class="col-sm-2 control-label">起始日期</label>
+				<div class="col-sm-4">
+					<div ng-datetimepicker="startConfig" ng-model="startDateTime" on-change="startChange"></div>
+				</div>
+				<label class="col-sm-2 control-label">结束日期</label>
+				<div class="col-sm-4">
+					<div ng-datetimepicker="endConfig" ng-model="endDateTime" on-change="endChange"></div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script src="index.js"></script>
+	<script>
+		angular.module('ngDatetimepickerApp',['ngDatetimepicker'])
+		.controller('ngDatetimepickerCtrlDemo',function($scope){
+			// $scope.startDateTime = '2016-10-11 22:10:10';
+
+			$scope.startConfig = {
+				showTime: true,
+				placeholder: '选择起始日期',
+				output: 'string'
+			}
+
+			$scope.endConfig = {
+				showTime: true,
+				placeholder: '选择起始日期',
+				output: 'string'
+			};
+
+			$scope.startChange = function(n,o){
+
+				$scope.endConfig.minDate = n;
+			}
+
+			$scope.endChange = function(n,o){
+				$scope.startConfig.maxDate = n;
+			}
+		});
+	</script>
+</body>
+</html>
