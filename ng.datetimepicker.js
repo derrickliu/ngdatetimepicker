@@ -272,10 +272,10 @@ angular.module('ngDatetimepicker', [])
 
 						if(y == minDateYear && $scope.month < minDateMonth + 1){
 							$scope.month = minDateMonth + 1;
-							$scope.monthChange();
+							$scope.yearMonthChange();
 						}else if(y == maxDateYear && $scope.month > maxDateMonth + 1){
 							$scope.month = maxDateMonth + 1;
-							$scope.monthChange();
+							$scope.yearMonthChange();
 						}
 					}else if($scope.config.maxDate){
 
@@ -288,7 +288,7 @@ angular.module('ngDatetimepicker', [])
 							}
 							if($scope.month > maxDateMonth + 1){
 								$scope.month = maxDateMonth + 1;
-								$scope.monthChange();
+								$scope.yearMonthChange();
 							}
 						}else{
 							for (var _y = y - 5; _y <= maxDateYear; _y++) {
@@ -307,7 +307,7 @@ angular.module('ngDatetimepicker', [])
 							}
 							if($scope.month < minDateMonth + 1){
 								$scope.month = minDateMonth + 1;
-								$scope.monthChange();
+								$scope.yearMonthChange();
 							}
 						}else{
 							for (var _y = minDateYear; _y <= y + 5; _y++) {
@@ -362,10 +362,6 @@ angular.module('ngDatetimepicker', [])
 						// $scope.time.minute.max = maxDate.getMinutes();
 						// $scope.time.second.max = maxDate.getSeconds();
 
-						if($scope.hour > $scope.time.hour.max){
-							$scope.hour = $scope.time.hour.max;
-						}
-
 						$scope.hour = Math.min($scope.hour, $scope.time.hour.max);
 						
 						$scope.hourChange();
@@ -388,7 +384,7 @@ angular.module('ngDatetimepicker', [])
 					}
 				}
 
-				$scope.yearMonthchange = function() {
+				$scope.yearMonthChange = function() {
 					// 更新日期面板
 					$scope.updateDateTimePanel($scope.year, $scope.month - 1);
 				}

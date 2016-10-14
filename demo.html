@@ -20,6 +20,12 @@
 					<div ng-datetimepicker="endConfig" ng-model="endDateTime" on-change="endChange"></div>
 				</div>
 			</div>
+			<div class="form-group form-group-sm">
+				<label class="col-sm-2 control-label">range</label>
+				<div class="col-sm-4">
+					<div ng-datetimepicker="rangeConfig" ng-model="rangeDateTime" on-change="rangeChange"></div>
+				</div>
+			</div>
 		</form>
 	</div>
 	<script src="index.js"></script>
@@ -47,6 +53,14 @@
 
 			$scope.endChange = function(n,o){
 				$scope.startConfig.maxDate = n;
+			}
+
+			$scope.rangeConfig = {
+				showTime: true,
+				placeholder: '选择起始日期',
+				output: 'string',
+				minDate: '2016-10-10 10:10:10',
+				maxDate: '2018-09-09 09:09:09'
 			}
 		});
 	</script>

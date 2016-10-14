@@ -1,6 +1,6 @@
 {
   "name": "@tencent/ng-datetimepicker",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "datetimepicker",
   "main": "index.js",
   "scripts": {

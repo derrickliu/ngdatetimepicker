@@ -8,10 +8,10 @@
 				<tr>
 					<th ng-class="{disabled: prevDisabled}" ng-click="prevMonth()"><i class="glyphicon glyphicon-arrow-left"></i></th>
 					<th colspan="5" class="switch">
-						<select ng-model="year" convert-to-number ng-change="yearMonthchange()">
+						<select ng-model="year" convert-to-number ng-change="yearMonthChange()">
 							<option ng-repeat="y in years" value="{{y}}">{{y}}</option>
 						</select>
-						<select ng-model="month" convert-to-number ng-change="yearMonthchange()">
+						<select ng-model="month" convert-to-number ng-change="yearMonthChange()">
 							<option ng-repeat="m in months" value="{{m}}">{{m}}</option>
 						</select>
 					</th>

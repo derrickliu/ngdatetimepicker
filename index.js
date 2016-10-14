@@ -306,10 +306,10 @@
 	
 						if (y == minDateYear && $scope.month < minDateMonth + 1) {
 							$scope.month = minDateMonth + 1;
-							$scope.monthChange();
+							$scope.yearMonthChange();
 						} else if (y == maxDateYear && $scope.month > maxDateMonth + 1) {
 							$scope.month = maxDateMonth + 1;
-							$scope.monthChange();
+							$scope.yearMonthChange();
 						}
 					} else if ($scope.config.maxDate) {
 	
@@ -322,7 +322,7 @@
 							}
 							if ($scope.month > maxDateMonth + 1) {
 								$scope.month = maxDateMonth + 1;
-								$scope.monthChange();
+								$scope.yearMonthChange();
 							}
 						} else {
 							for (var _y = y - 5; _y <= maxDateYear; _y++) {
@@ -341,7 +341,7 @@
 							}
 							if ($scope.month < minDateMonth + 1) {
 								$scope.month = minDateMonth + 1;
-								$scope.monthChange();
+								$scope.yearMonthChange();
 							}
 						} else {
 							for (var _y = minDateYear; _y <= y + 5; _y++) {
@@ -393,30 +393,16 @@
 						// $scope.time.minute.max = maxDate.getMinutes();
 						// $scope.time.second.max = maxDate.getSeconds();
 	
-						if ($scope.hour > $scope.time.hour.max) {
-							$scope.hour = $scope.time.hour.max;
-						}
-						// if($scope.minute > $scope.time.minute.max){
-						// 	$scope.minute = $scope.time.minute.max;
-						// }
-						// if($scope.second > $scope.time.second.max){
-						// 	$scope.second = $scope.time.second.max;
-						// }
+						$scope.hour = Math.min($scope.hour, $scope.time.hour.max);
+	
 						$scope.hourChange();
 					} else if (minDate && minDate.getDate() == d) {
 						$scope.time.hour.min = minDate.getHours();
 						// $scope.time.minute.min = minDate.getMinutes();
 						// $scope.time.second.min = minDate.getSeconds();
 	
-						if ($scope.hour < $scope.time.hour.min) {
-							$scope.hour = $scope.time.hour.min;
-						}
-						// if($scope.minute < $scope.time.minute.min){
-						// 	$scope.minute = $scope.time.minute.min;
-						// }
-						// if($scope.second < $scope.time.second.min){
-						// 	$scope.second = $scope.time.second.min;
-						// }
+						$scope.hour = Math.max($scope.hour, $scope.time.hour.min);
+	
 						$scope.hourChange();
 					} else {
 						$scope.time.hour.max = 23;
@@ -429,7 +415,7 @@
 					}
 				}
 	
-				$scope.yearMonthchange = function () {
+				$scope.yearMonthChange = function () {
 					// 更新日期面板
 					$scope.updateDateTimePanel($scope.year, $scope.month - 1);
 				};
@@ -995,7 +981,7 @@
   \******************************************/
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"dropdown\">\r\n\t<div class=\"input-group\" id=\"{{datetimepickerinput}}\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\r\n\t\t<input class=\"form-control\" type=\"text\" ng-model=\"datetime\" placeholder=\"{{config.placeholder}}\" ng-readonly=\"config.readonly\" name=\"{{config.name}}\"><span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-calendar\"></i></span>\r\n\t</div>\r\n\t<div class=\"dropdown-menu datetimepicker\" role=\"menu\" aria-labelledby=\"{{datetimepickerinput}}\">\r\n\t\t<table class=\" table-condensed\">\r\n\t\t\t<thead>\r\n\t\t\t\t<tr>\r\n\t\t\t\t\t<th ng-class=\"{disabled: prevDisabled}\" ng-click=\"prevMonth()\"><i class=\"glyphicon glyphicon-arrow-left\"></i></th>\r\n\t\t\t\t\t<th colspan=\"5\" class=\"switch\">\r\n\t\t\t\t\t\t<select ng-model=\"year\" convert-to-number ng-change=\"yearMonthchange()\">\r\n\t\t\t\t\t\t\t<option ng-repeat=\"y in years\" value=\"{{y}}\">{{y}}</option>\r\n\t\t\t\t\t\t</select>\r\n\t\t\t\t\t\t<select ng-model=\"month\" convert-to-number ng-change=\"yearMonthchange()\">\r\n\t\t\t\t\t\t\t<option ng-repeat=\"m in months\" value=\"{{m}}\">{{m}}</option>\r\n\t\t\t\t\t\t</select>\r\n\t\t\t\t\t</th>\r\n\t\t\t\t\t<th ng-class=\"{disabled: nextDisabled}\" ng-click=\"nextMonth()\"><i class=\"glyphicon glyphicon-arrow-right\"></i></th>\r\n\t\t\t\t</tr>\r\n\t\t\t\t<tr>\r\n\t\t\t\t\t<th class=\"dow\">天</th>\r\n\t\t\t\t\t<th class=\"dow\">一</th>\r\n\t\t\t\t\t<th class=\"dow\">二</th>\r\n\t\t\t\t\t<th class=\"dow\">三</th>\r\n\t\t\t\t\t<th class=\"dow\">四</th>\r\n\t\t\t\t\t<th class=\"dow\">五</th>\r\n\t\t\t\t\t<th class=\"dow\">六</th>\r\n\t\t\t\t</tr>\r\n\t\t\t</thead>\r\n\t\t\t<tbody>\r\n\t\t\t\t<tr ng-repeat=\"date in dates\">\r\n\t\t\t\t\t<td class=\"day {{d.status}}\" ng-class=\"{disabled: d.disabled}\" ng-repeat=\"d in date\" ng-click=\"dateSelect(d)\">{{d.day}}</td>\r\n\t\t\t\t</tr>\r\n\t\t\t</tbody>\r\n\t\t\t<tfoot>\r\n\t\t\t\t<tr ng-show=\"config.showTime\">\r\n\t\t\t\t\t<td colspan=\"6\"><input type=\"number\" max=\"{{time.hour.max}}\" min=\"{{time.hour.min}}\" ng-model=\"hour\" ng-change=\"hourChange()\">h<input type=\"number\" max=\"{{time.minute.max}}\" min=\"{{time.minute.min}}\" ng-model=\"minute\" ng-change=\"minuteChange()\">min<input type=\"number\" max=\"{{time.second.max}}\" min=\"{{time.second.min}}\" ng-model=\"second\" ng-change=\"secondChange()\">s</td>\r\n\t\t\t\t\t<th class=\"sure\" ng-click=\"sure()\"><i class=\"glyphicon glyphicon-ok\"></i></th>\r\n\t\t\t\t</tr>\r\n\t\t\t\t<tr ng-show=\"config.showTime\">\r\n\t\t\t\t\t<th colspan=\"7\" class=\"sure\" ng-class=\"{disabled: todayDis}\" ng-click=\"today()\">现在</th>\r\n\t\t\t\t</tr>\r\n\t\t\t\t<tr ng-show=\"!config.showTime\">\r\n\t\t\t\t\t<th colspan=\"7\" class=\"sure\" ng-class=\"{disabled: todayDis}\" ng-click=\"today()\">今天</th>\r\n\t\t\t\t</tr>\r\n\t\t\t</tfoot>\r\n\t\t</table>\r\n\t</div>\r\n</div>";
+	module.exports = "<div class=\"dropdown\">\r\n\t<div class=\"input-group\" id=\"{{datetimepickerinput}}\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\r\n\t\t<input class=\"form-control\" type=\"text\" ng-model=\"datetime\" placeholder=\"{{config.placeholder}}\" ng-readonly=\"config.readonly\" name=\"{{config.name}}\"><span class=\"input-group-addon\"><i class=\"glyphicon glyphicon-calendar\"></i></span>\r\n\t</div>\r\n\t<div class=\"dropdown-menu datetimepicker\" role=\"menu\" aria-labelledby=\"{{datetimepickerinput}}\">\r\n\t\t<table class=\" table-condensed\">\r\n\t\t\t<thead>\r\n\t\t\t\t<tr>\r\n\t\t\t\t\t<th ng-class=\"{disabled: prevDisabled}\" ng-click=\"prevMonth()\"><i class=\"glyphicon glyphicon-arrow-left\"></i></th>\r\n\t\t\t\t\t<th colspan=\"5\" class=\"switch\">\r\n\t\t\t\t\t\t<select ng-model=\"year\" convert-to-number ng-change=\"yearMonthChange()\">\r\n\t\t\t\t\t\t\t<option ng-repeat=\"y in years\" value=\"{{y}}\">{{y}}</option>\r\n\t\t\t\t\t\t</select>\r\n\t\t\t\t\t\t<select ng-model=\"month\" convert-to-number ng-change=\"yearMonthChange()\">\r\n\t\t\t\t\t\t\t<option ng-repeat=\"m in months\" value=\"{{m}}\">{{m}}</option>\r\n\t\t\t\t\t\t</select>\r\n\t\t\t\t\t</th>\r\n\t\t\t\t\t<th ng-class=\"{disabled: nextDisabled}\" ng-click=\"nextMonth()\"><i class=\"glyphicon glyphicon-arrow-right\"></i></th>\r\n\t\t\t\t</tr>\r\n\t\t\t\t<tr>\r\n\t\t\t\t\t<th class=\"dow\">天</th>\r\n\t\t\t\t\t<th class=\"dow\">一</th>\r\n\t\t\t\t\t<th class=\"dow\">二</th>\r\n\t\t\t\t\t<th class=\"dow\">三</th>\r\n\t\t\t\t\t<th class=\"dow\">四</th>\r\n\t\t\t\t\t<th class=\"dow\">五</th>\r\n\t\t\t\t\t<th class=\"dow\">六</th>\r\n\t\t\t\t</tr>\r\n\t\t\t</thead>\r\n\t\t\t<tbody>\r\n\t\t\t\t<tr ng-repeat=\"date in dates\">\r\n\t\t\t\t\t<td class=\"day {{d.status}}\" ng-class=\"{disabled: d.disabled}\" ng-repeat=\"d in date\" ng-click=\"dateSelect(d)\">{{d.day}}</td>\r\n\t\t\t\t</tr>\r\n\t\t\t</tbody>\r\n\t\t\t<tfoot>\r\n\t\t\t\t<tr ng-show=\"config.showTime\">\r\n\t\t\t\t\t<td colspan=\"6\"><input type=\"number\" max=\"{{time.hour.max}}\" min=\"{{time.hour.min}}\" ng-model=\"hour\" ng-change=\"hourChange()\">h<input type=\"number\" max=\"{{time.minute.max}}\" min=\"{{time.minute.min}}\" ng-model=\"minute\" ng-change=\"minuteChange()\">min<input type=\"number\" max=\"{{time.second.max}}\" min=\"{{time.second.min}}\" ng-model=\"second\" ng-change=\"secondChange()\">s</td>\r\n\t\t\t\t\t<th class=\"sure\" ng-click=\"sure()\"><i class=\"glyphicon glyphicon-ok\"></i></th>\r\n\t\t\t\t</tr>\r\n\t\t\t\t<tr ng-show=\"config.showTime\">\r\n\t\t\t\t\t<th colspan=\"7\" class=\"sure\" ng-class=\"{disabled: todayDis}\" ng-click=\"today()\">现在</th>\r\n\t\t\t\t</tr>\r\n\t\t\t\t<tr ng-show=\"!config.showTime\">\r\n\t\t\t\t\t<th colspan=\"7\" class=\"sure\" ng-class=\"{disabled: todayDis}\" ng-click=\"today()\">今天</th>\r\n\t\t\t\t</tr>\r\n\t\t\t</tfoot>\r\n\t\t</table>\r\n\t</div>\r\n</div>";
 
 /***/ }
 /******/ ]);
